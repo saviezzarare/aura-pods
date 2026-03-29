@@ -14,53 +14,66 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-      className="group glass rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-lg hover:shadow-primary/5"
+      transition={{ duration: 0.5, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+      className="group bg-card border border-border rounded-lg overflow-hidden transition-all duration-300 hover:border-muted-foreground/30"
     >
-      <Link to={`/product/${product.id}`} className="block relative overflow-hidden aspect-square">
+      {/* Image */}
+      <Link to={`/product/${product.id}`} className="block relative overflow-hidden aspect-square bg-secondary">
         <img
           src={product.image}
           alt={product.name}
           loading="lazy"
           width={800}
           height={800}
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
+        
+        {/* Badge */}
         {product.badge && (
-          <span className="absolute top-3 left-3 px-3 py-1 rounded-full bg-primary text-primary-foreground text-[11px] font-semibold">
+          <span className="absolute top-3 left-3 px-2.5 py-1 rounded bg-foreground text-background text-[10px] font-semibold tracking-wide uppercase">
             {product.badge}
           </span>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       </Link>
 
-      <div className="p-5 space-y-3">
+      {/* Content */}
+      <div className="p-4 space-y-3">
+        {/* Brand & Rating */}
         <div className="flex items-center justify-between">
-          <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider">{product.brand}</span>
+          <span className="text-[10px] text-muted-foreground font-medium uppercase tracking-widest">
+            {product.brand}
+          </span>
           <div className="flex items-center gap-1">
-            <Star className="w-3.5 h-3.5 text-primary fill-primary" />
+            <Star className="w-3 h-3 text-foreground fill-foreground" />
             <span className="text-xs text-muted-foreground">{product.rating}</span>
           </div>
         </div>
 
+        {/* Name */}
         <Link to={`/product/${product.id}`}>
-          <h3 className="text-foreground font-semibold text-base group-hover:text-primary transition-colors duration-200">
+          <h3 className="text-foreground font-medium text-sm leading-snug line-clamp-2 group-hover:text-muted-foreground transition-colors duration-200">
             {product.name}
           </h3>
         </Link>
 
+        {/* Flavor */}
         {product.flavor && (
-          <p className="text-muted-foreground text-xs">{product.flavor}</p>
+          <p className="text-muted-foreground text-xs truncate">{product.flavor}</p>
         )}
 
+        {/* Price & Add to Cart */}
         <div className="flex items-center justify-between pt-1">
-          <div className="flex items-center gap-2">
-            <span className="text-foreground font-bold text-lg">${product.price.toFixed(2)}</span>
+          <div className="flex items-baseline gap-2">
+            <span className="text-foreground font-semibold text-base">
+              R$ {product.price.toFixed(2)}
+            </span>
             {product.originalPrice && (
-              <span className="text-muted-foreground text-sm line-through">${product.originalPrice.toFixed(2)}</span>
+              <span className="text-muted-foreground text-xs line-through">
+                R$ {product.originalPrice.toFixed(2)}
+              </span>
             )}
           </div>
           <button
@@ -68,9 +81,10 @@ const ProductCard = ({ product, index = 0 }: ProductCardProps) => {
               e.preventDefault();
               addItem(product);
             }}
-            className="p-2.5 rounded-xl bg-primary text-primary-foreground transition-all duration-200 hover:shadow-md hover:shadow-primary/25 active:scale-95"
+            className="p-2.5 rounded-lg bg-foreground text-background transition-all duration-200 hover:opacity-80 active:scale-95"
+            aria-label={`Adicionar ${product.name} ao carrinho`}
           >
-            <ShoppingBag className="w-4 h-4" />
+            <ShoppingBag className="w-4 h-4" strokeWidth={1.5} />
           </button>
         </div>
       </div>

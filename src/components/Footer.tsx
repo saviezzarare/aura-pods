@@ -1,31 +1,37 @@
 import { Link } from 'react-router-dom';
-import { Mail } from 'lucide-react';
+import { Mail, ArrowRight } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="border-t border-border/50 bg-secondary/20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <footer className="border-t border-border bg-background">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-          <div className="md:col-span-1">
-            <Link to="/" className="text-xl font-bold tracking-tight text-foreground">
-              VAPOR<span className="text-primary">X</span>
+          {/* Brand */}
+          <div className="md:col-span-1 space-y-4">
+            <Link to="/" className="flex items-center gap-1">
+              <span className="text-lg font-semibold tracking-tight text-foreground">STORM</span>
+              <span className="text-lg font-semibold tracking-tight text-muted-foreground">PODS</span>
             </Link>
-            <p className="text-muted-foreground text-sm mt-3 leading-relaxed">
-              Premium vaping products for the discerning adult. Quality, innovation, and design.
+            <p className="text-muted-foreground text-sm leading-relaxed">
+              Produtos premium de vaping para o adulto exigente.
             </p>
           </div>
 
+          {/* Links */}
           {[
-            { title: 'Shop', links: [['All Products', '/shop'], ['Pods', '/shop?category=pods'], ['Kits', '/shop?category=kits']] },
-            { title: 'Support', links: [['Contact', '#'], ['Shipping', '#'], ['Returns', '#']] },
-            { title: 'Legal', links: [['Privacy Policy', '#'], ['Terms of Service', '#'], ['Age Policy', '#']] },
+            { title: 'Loja', links: [['Todos os Produtos', '/shop'], ['Pods', '/shop?category=pods'], ['Kits', '/shop?category=kits']] },
+            { title: 'Suporte', links: [['Contato', '#'], ['Envio', '#'], ['Devolucoes', '#']] },
+            { title: 'Legal', links: [['Privacidade', '#'], ['Termos de Uso', '#'], ['Politica de Idade', '#']] },
           ].map(section => (
             <div key={section.title}>
-              <h4 className="text-sm font-semibold text-foreground mb-4">{section.title}</h4>
+              <h4 className="text-xs font-semibold text-foreground mb-4 uppercase tracking-widest">{section.title}</h4>
               <ul className="space-y-2.5">
                 {section.links.map(([label, href]) => (
                   <li key={label}>
-                    <Link to={href} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    <Link 
+                      to={href} 
+                      className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-200"
+                    >
                       {label}
                     </Link>
                   </li>
@@ -36,25 +42,35 @@ const Footer = () => {
         </div>
 
         {/* Newsletter */}
-        <div className="mt-12 pt-8 border-t border-border/50 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="mt-12 pt-8 border-t border-border flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
           <div className="flex items-center gap-3">
-            <Mail className="w-4 h-4 text-primary" />
-            <span className="text-sm text-muted-foreground">Subscribe for exclusive drops</span>
+            <div className="w-10 h-10 rounded-lg bg-secondary border border-border flex items-center justify-center">
+              <Mail className="w-4 h-4 text-foreground" strokeWidth={1.5} />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-foreground">Newsletter</p>
+              <p className="text-xs text-muted-foreground">Receba ofertas exclusivas</p>
+            </div>
           </div>
-          <div className="flex gap-2">
+          
+          <div className="flex gap-2 w-full lg:w-auto">
             <input
               type="email"
-              placeholder="Enter your email"
-              className="px-4 py-2.5 rounded-xl bg-secondary text-foreground text-sm placeholder:text-muted-foreground border border-border focus:outline-none focus:ring-1 focus:ring-primary w-64"
+              placeholder="Seu e-mail"
+              className="flex-1 lg:w-64 px-4 py-2.5 rounded-lg bg-secondary text-foreground text-sm placeholder:text-muted-foreground border border-border focus:outline-none focus:ring-1 focus:ring-foreground/20 transition-all duration-200"
             />
-            <button className="px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold transition-all duration-200 hover:shadow-md hover:shadow-primary/25">
-              Subscribe
+            <button className="px-4 py-2.5 rounded-lg bg-foreground text-background text-sm font-medium flex items-center gap-2 transition-all duration-200 hover:opacity-90 active:scale-[0.98]">
+              <span className="hidden sm:inline">Inscrever</span>
+              <ArrowRight className="w-4 h-4" strokeWidth={1.5} />
             </button>
           </div>
         </div>
 
-        <div className="mt-8 text-center text-xs text-muted-foreground/50">
-          Must be 21+ to purchase. Products contain nicotine, an addictive chemical.
+        {/* Copyright */}
+        <div className="mt-8 pt-6 border-t border-border text-center">
+          <p className="text-xs text-muted-foreground">
+            Deve ter 18+ anos para comprar. Produtos contem nicotina, uma substancia viciante.
+          </p>
         </div>
       </div>
     </footer>

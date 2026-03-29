@@ -17,8 +17,8 @@ const FeaturedProducts = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-3xl sm:text-4xl font-bold text-foreground">Featured Products</h2>
-            <p className="text-muted-foreground mt-2">Curated selection of premium devices</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-foreground">Produtos em Destaque</h2>
+            <p className="text-muted-foreground mt-2">Selecionados Cuidadosamente</p>
           </motion.div>
           <motion.div
             initial={{ opacity: 0 }}

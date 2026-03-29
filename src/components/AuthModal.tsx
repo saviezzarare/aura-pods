@@ -26,7 +26,7 @@ const AuthModal = () => {
   };
 
   const strength = passwordStrength(password);
-  const strengthLabel = ['', 'Weak', 'Fair', 'Good', 'Strong'][strength] || '';
+  const strengthLabel = ['', 'Fraca', 'Regular', 'Boa', 'Forte'][strength] || '';
   const strengthColor = ['', 'bg-destructive', 'bg-yellow-500', 'bg-primary', 'bg-green-500'][strength] || '';
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -47,7 +47,7 @@ const AuthModal = () => {
     e.preventDefault();
     setError('');
     if (password.length < 8) {
-      setError('Password must be at least 8 characters');
+      setError('A senha deve ter pelo menos 8 caracteres');
       return;
     }
     setLoading(true);
@@ -88,6 +88,8 @@ const AuthModal = () => {
     resetForm();
   };
 
+  const inputClasses = "w-full pl-11 pr-4 py-4 rounded-xl bg-secondary/50 text-foreground text-sm border border-border/50 placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all duration-200";
+
   return (
     <AnimatePresence>
       {showAuthModal && (
@@ -95,168 +97,314 @@ const AuthModal = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[90] flex items-center justify-center bg-background/80 backdrop-blur-xl px-4"
+          className="fixed inset-0 z-[90] flex items-center justify-center bg-background/90 backdrop-blur-xl px-4"
           onClick={handleClose}
         >
           <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.9, opacity: 0 }}
+            initial={{ scale: 0.95, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            exit={{ scale: 0.95, opacity: 0, y: 20 }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="glass-strong rounded-2xl p-8 max-w-md w-full relative"
+            className="bg-card/90 backdrop-blur-xl border border-border/50 rounded-3xl p-8 max-w-md w-full relative shadow-2xl shadow-black/30"
             onClick={e => e.stopPropagation()}
           >
-            <button onClick={handleClose} className="absolute top-4 right-4 p-2 text-muted-foreground hover:text-foreground transition-colors rounded-lg">
+            {/* Close button */}
+            <button 
+              onClick={handleClose} 
+              className="absolute top-5 right-5 p-2 text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-all duration-200 rounded-xl"
+            >
               <X className="w-5 h-5" />
             </button>
 
+            {/* Auth message */}
             {authModalMessage && view === 'login' && (
-              <div className="mb-4 p-3 rounded-xl bg-primary/10 border border-primary/20 text-primary text-sm flex items-center gap-2">
-                <Lock className="w-4 h-4 flex-shrink-0" />
-                {authModalMessage}
+              <div className="mb-6 p-4 rounded-xl bg-primary/10 border border-primary/20 text-primary text-sm flex items-center gap-3">
+                <Lock className="w-5 h-5 flex-shrink-0" />
+                <span>{authModalMessage}</span>
               </div>
             )}
 
             <AnimatePresence mode="wait">
+              {/* Login View */}
               {view === 'login' && (
-                <motion.form key="login" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} onSubmit={handleLogin} className="space-y-5">
-                  <div className="text-center mb-6">
-                    <h2 className="text-2xl font-bold text-foreground">Welcome Back</h2>
-                    <p className="text-muted-foreground text-sm mt-1">Sign in to your account</p>
+                <motion.form 
+                  key="login" 
+                  initial={{ opacity: 0, x: -20 }} 
+                  animate={{ opacity: 1, x: 0 }} 
+                  exit={{ opacity: 0, x: 20 }} 
+                  onSubmit={handleLogin} 
+                  className="space-y-5"
+                >
+                  <div className="text-center mb-8">
+                    <h2 className="text-2xl font-bold text-foreground">Bem-vindo de volta</h2>
+                    <p className="text-muted-foreground text-sm mt-2">Entre na sua conta</p>
                   </div>
 
                   {error && (
-                    <div className="p-3 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm flex items-center gap-2">
-                      <AlertCircle className="w-4 h-4 flex-shrink-0" />
-                      {error}
+                    <div className="p-4 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm flex items-center gap-3">
+                      <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                      <span>{error}</span>
                     </div>
                   )}
 
                   <div className="relative">
-                    <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                    <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email address" required className="w-full pl-10 pr-4 py-3.5 rounded-xl bg-secondary text-foreground text-sm border border-border placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-all" />
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <input 
+                      type="email" 
+                      value={email} 
+                      onChange={e => setEmail(e.target.value)} 
+                      placeholder="Seu e-mail" 
+                      required 
+                      className={inputClasses} 
+                    />
                   </div>
 
                   <div className="relative">
-                    <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                    <input type={showPassword ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" required className="w-full pl-10 pr-12 py-3.5 rounded-xl bg-secondary text-foreground text-sm border border-border placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-all" />
-                    <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <input 
+                      type={showPassword ? 'text' : 'password'} 
+                      value={password} 
+                      onChange={e => setPassword(e.target.value)} 
+                      placeholder="Sua senha" 
+                      required 
+                      className={`${inputClasses} pr-12`} 
+                    />
+                    <button 
+                      type="button" 
+                      onClick={() => setShowPassword(!showPassword)} 
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                    >
                       {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
                   </div>
 
                   <div className="flex justify-end">
-                    <button type="button" onClick={() => { setError(''); setView('forgot'); }} className="text-xs text-primary hover:underline">Forgot password?</button>
+                    <button 
+                      type="button" 
+                      onClick={() => { setError(''); setView('forgot'); }} 
+                      className="text-xs text-primary hover:underline"
+                    >
+                      Esqueceu a senha?
+                    </button>
                   </div>
 
-                  <button type="submit" disabled={loading} className="w-full py-3.5 rounded-xl bg-primary text-primary-foreground font-semibold text-sm flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 disabled:opacity-50">
-                    {loading ? <div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" /> : <>Sign In <ArrowRight className="w-4 h-4" /></>}
+                  <button 
+                    type="submit" 
+                    disabled={loading} 
+                    className="w-full py-4 rounded-xl bg-primary text-primary-foreground font-semibold text-sm flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-xl hover:shadow-primary/30 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {loading ? (
+                      <div className="w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+                    ) : (
+                      <>Entrar <ArrowRight className="w-4 h-4" /></>
+                    )}
                   </button>
 
-                  <p className="text-center text-sm text-muted-foreground">
-                    Don't have an account?{' '}
-                    <button type="button" onClick={() => { setError(''); setView('signup'); }} className="text-primary font-medium hover:underline">Create one</button>
+                  <p className="text-center text-sm text-muted-foreground pt-2">
+                    Não tem uma conta?{' '}
+                    <button 
+                      type="button" 
+                      onClick={() => { setError(''); setView('signup'); }} 
+                      className="text-primary font-medium hover:underline"
+                    >
+                      Criar conta
+                    </button>
                   </p>
                 </motion.form>
               )}
 
+              {/* Signup View */}
               {view === 'signup' && (
-                <motion.form key="signup" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} onSubmit={handleSignup} className="space-y-5">
-                  <div className="text-center mb-6">
-                    <h2 className="text-2xl font-bold text-foreground">Create Account</h2>
-                    <p className="text-muted-foreground text-sm mt-1">Join VaporX today</p>
+                <motion.form 
+                  key="signup" 
+                  initial={{ opacity: 0, x: 20 }} 
+                  animate={{ opacity: 1, x: 0 }} 
+                  exit={{ opacity: 0, x: -20 }} 
+                  onSubmit={handleSignup} 
+                  className="space-y-5"
+                >
+                  <div className="text-center mb-8">
+                    <h2 className="text-2xl font-bold text-foreground">Criar Conta</h2>
+                    <p className="text-muted-foreground text-sm mt-2">Junte-se à Storm Pods</p>
                   </div>
 
                   {error && (
-                    <div className="p-3 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm flex items-center gap-2">
-                      <AlertCircle className="w-4 h-4 flex-shrink-0" />
-                      {error}
+                    <div className="p-4 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm flex items-center gap-3">
+                      <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                      <span>{error}</span>
                     </div>
                   )}
 
                   <div className="relative">
-                    <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                    <input type="text" value={fullName} onChange={e => setFullName(e.target.value)} placeholder="Full name" required className="w-full pl-10 pr-4 py-3.5 rounded-xl bg-secondary text-foreground text-sm border border-border placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-all" />
+                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <input 
+                      type="text" 
+                      value={fullName} 
+                      onChange={e => setFullName(e.target.value)} 
+                      placeholder="Nome completo" 
+                      required 
+                      className={inputClasses} 
+                    />
                   </div>
 
                   <div className="relative">
-                    <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                    <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email address" required className="w-full pl-10 pr-4 py-3.5 rounded-xl bg-secondary text-foreground text-sm border border-border placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-all" />
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <input 
+                      type="email" 
+                      value={email} 
+                      onChange={e => setEmail(e.target.value)} 
+                      placeholder="Seu e-mail" 
+                      required 
+                      className={inputClasses} 
+                    />
                   </div>
 
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     <div className="relative">
-                      <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <input type={showPassword ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)} placeholder="Password (min 8 chars)" required minLength={8} className="w-full pl-10 pr-12 py-3.5 rounded-xl bg-secondary text-foreground text-sm border border-border placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-all" />
-                      <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
+                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                      <input 
+                        type={showPassword ? 'text' : 'password'} 
+                        value={password} 
+                        onChange={e => setPassword(e.target.value)} 
+                        placeholder="Senha (mín. 8 caracteres)" 
+                        required 
+                        minLength={8} 
+                        className={`${inputClasses} pr-12`} 
+                      />
+                      <button 
+                        type="button" 
+                        onClick={() => setShowPassword(!showPassword)} 
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                      >
                         {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
                     </div>
+                    
+                    {/* Password strength indicator */}
                     {password && (
-                      <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="space-y-1.5">
-                        <div className="flex gap-1">
+                      <motion.div 
+                        initial={{ opacity: 0, height: 0 }} 
+                        animate={{ opacity: 1, height: 'auto' }} 
+                        className="space-y-2"
+                      >
+                        <div className="flex gap-1.5">
                           {[1, 2, 3, 4].map(i => (
-                            <div key={i} className={`h-1 flex-1 rounded-full transition-colors ${i <= strength ? strengthColor : 'bg-border'}`} />
+                            <div 
+                              key={i} 
+                              className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${i <= strength ? strengthColor : 'bg-border'}`} 
+                            />
                           ))}
                         </div>
-                        <p className="text-xs text-muted-foreground">{strengthLabel}</p>
+                        <p className="text-xs text-muted-foreground">Força: {strengthLabel}</p>
                       </motion.div>
                     )}
                   </div>
 
-                  <button type="submit" disabled={loading} className="w-full py-3.5 rounded-xl bg-primary text-primary-foreground font-semibold text-sm flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 disabled:opacity-50">
-                    {loading ? <div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" /> : <>Create Account <ArrowRight className="w-4 h-4" /></>}
+                  <button 
+                    type="submit" 
+                    disabled={loading} 
+                    className="w-full py-4 rounded-xl bg-primary text-primary-foreground font-semibold text-sm flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-xl hover:shadow-primary/30 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {loading ? (
+                      <div className="w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+                    ) : (
+                      <>Criar Conta <ArrowRight className="w-4 h-4" /></>
+                    )}
                   </button>
 
-                  <p className="text-center text-sm text-muted-foreground">
-                    Already have an account?{' '}
-                    <button type="button" onClick={() => { setError(''); setView('login'); }} className="text-primary font-medium hover:underline">Sign in</button>
+                  <p className="text-center text-sm text-muted-foreground pt-2">
+                    Já tem uma conta?{' '}
+                    <button 
+                      type="button" 
+                      onClick={() => { setError(''); setView('login'); }} 
+                      className="text-primary font-medium hover:underline"
+                    >
+                      Entrar
+                    </button>
                   </p>
                 </motion.form>
               )}
 
+              {/* Forgot Password View */}
               {view === 'forgot' && (
-                <motion.form key="forgot" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} onSubmit={handleForgot} className="space-y-5">
-                  <div className="text-center mb-6">
-                    <h2 className="text-2xl font-bold text-foreground">Reset Password</h2>
-                    <p className="text-muted-foreground text-sm mt-1">We'll send you a reset link</p>
+                <motion.form 
+                  key="forgot" 
+                  initial={{ opacity: 0, x: 20 }} 
+                  animate={{ opacity: 1, x: 0 }} 
+                  exit={{ opacity: 0, x: -20 }} 
+                  onSubmit={handleForgot} 
+                  className="space-y-5"
+                >
+                  <div className="text-center mb-8">
+                    <h2 className="text-2xl font-bold text-foreground">Recuperar Senha</h2>
+                    <p className="text-muted-foreground text-sm mt-2">Enviaremos um link de recuperação</p>
                   </div>
 
                   {error && (
-                    <div className="p-3 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm flex items-center gap-2">
-                      <AlertCircle className="w-4 h-4 flex-shrink-0" />
-                      {error}
+                    <div className="p-4 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-sm flex items-center gap-3">
+                      <AlertCircle className="w-5 h-5 flex-shrink-0" />
+                      <span>{error}</span>
                     </div>
                   )}
 
                   <div className="relative">
-                    <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                    <input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email address" required className="w-full pl-10 pr-4 py-3.5 rounded-xl bg-secondary text-foreground text-sm border border-border placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary transition-all" />
+                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                    <input 
+                      type="email" 
+                      value={email} 
+                      onChange={e => setEmail(e.target.value)} 
+                      placeholder="Seu e-mail" 
+                      required 
+                      className={inputClasses} 
+                    />
                   </div>
 
-                  <button type="submit" disabled={loading} className="w-full py-3.5 rounded-xl bg-primary text-primary-foreground font-semibold text-sm flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 disabled:opacity-50">
-                    {loading ? <div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" /> : <>Send Reset Link <Mail className="w-4 h-4" /></>}
+                  <button 
+                    type="submit" 
+                    disabled={loading} 
+                    className="w-full py-4 rounded-xl bg-primary text-primary-foreground font-semibold text-sm flex items-center justify-center gap-2 transition-all duration-300 hover:shadow-xl hover:shadow-primary/30 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {loading ? (
+                      <div className="w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+                    ) : (
+                      <>Enviar Link <Mail className="w-4 h-4" /></>
+                    )}
                   </button>
 
-                  <p className="text-center text-sm text-muted-foreground">
-                    <button type="button" onClick={() => { setError(''); setView('login'); }} className="text-primary font-medium hover:underline">Back to login</button>
+                  <p className="text-center text-sm text-muted-foreground pt-2">
+                    <button 
+                      type="button" 
+                      onClick={() => { setError(''); setView('login'); }} 
+                      className="text-primary font-medium hover:underline"
+                    >
+                      Voltar ao login
+                    </button>
                   </p>
                 </motion.form>
               )}
 
+              {/* Check Email View */}
               {view === 'check-email' && (
-                <motion.div key="check" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center space-y-4 py-4">
-                  <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
-                    <Check className="w-8 h-8 text-primary" />
+                <motion.div 
+                  key="check" 
+                  initial={{ opacity: 0, scale: 0.95 }} 
+                  animate={{ opacity: 1, scale: 1 }} 
+                  className="text-center space-y-5 py-6"
+                >
+                  <div className="w-20 h-20 rounded-2xl bg-primary/15 flex items-center justify-center mx-auto">
+                    <Check className="w-10 h-10 text-primary" />
                   </div>
-                  <h2 className="text-2xl font-bold text-foreground">Check Your Email</h2>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
+                  <h2 className="text-2xl font-bold text-foreground">Verifique seu E-mail</h2>
+                  <p className="text-muted-foreground text-sm leading-relaxed max-w-xs mx-auto">
                     {signupSuccess
-                      ? "We've sent a verification link to your email. Please confirm your email address before signing in."
-                      : "We've sent a password reset link to your email. Check your inbox and follow the instructions."}
+                      ? "Enviamos um link de verificação para seu e-mail. Por favor, confirme seu endereço antes de fazer login."
+                      : "Enviamos um link de recuperação para seu e-mail. Verifique sua caixa de entrada."}
                   </p>
-                  <button onClick={() => { resetForm(); setView('login'); }} className="text-primary text-sm font-medium hover:underline">
-                    Back to login
+                  <button 
+                    onClick={() => { resetForm(); setView('login'); }} 
+                    className="text-primary text-sm font-medium hover:underline"
+                  >
+                    Voltar ao login
                   </button>
                 </motion.div>
               )}

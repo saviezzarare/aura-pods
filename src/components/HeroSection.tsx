@@ -1,84 +1,90 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, Zap } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import heroPod from '@/assets/hero-pod.jpg';
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background effects */}
-      <div className="absolute inset-0 bg-gradient-mesh" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[120px] animate-pulse-glow" />
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-background">
+      {/* Subtle gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
+      
+      {/* Minimal grid pattern */}
+      <div className="absolute inset-0 opacity-[0.02]" style={{
+        backgroundImage: 'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)',
+        backgroundSize: '60px 60px'
+      }} />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 w-full">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Text */}
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-28 pb-16 w-full">
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
+          {/* Text Content */}
           <div className="space-y-8">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-xs font-medium text-primary"
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-border"
             >
-              <Zap className="w-3.5 h-3.5" />
-              Next Generation Vaping
+              <span className="w-1.5 h-1.5 rounded-full bg-foreground animate-pulse" />
+              <span className="text-xs font-medium text-muted-foreground tracking-wide uppercase">Novidades</span>
             </motion.div>
 
             <motion.h1
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[0.95] tracking-tight"
+              transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[1.1] tracking-tight text-foreground"
             >
-              <span className="text-foreground">Elevate Your</span>
+              Eleve Sua
               <br />
-              <span className="text-gradient">Experience</span>
+              Experiencia
             </motion.h1>
 
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="text-muted-foreground text-lg max-w-md leading-relaxed"
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="text-muted-foreground text-base max-w-md leading-relaxed"
             >
-              Premium pod systems engineered for perfection. Discover the future of vaping with cutting-edge technology and unmatched flavor.
+              Os melhores e mais novos pods do momento. Design premium, qualidade incomparavel.
             </motion.p>
 
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.7 }}
-              className="flex flex-wrap gap-4"
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="flex flex-wrap gap-3 pt-2"
             >
               <Link
                 to="/shop"
-                className="group inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-primary text-primary-foreground font-semibold text-sm transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 active:scale-[0.98]"
+                className="group inline-flex items-center gap-2.5 px-6 py-3 rounded-lg bg-foreground text-background font-medium text-sm transition-all duration-200 hover:opacity-90 active:scale-[0.98]"
               >
-                Shop Now
-                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                Ver Produtos
+                <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" strokeWidth={1.5} />
               </Link>
               <Link
                 to="/shop"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-xl glass text-foreground font-semibold text-sm transition-all duration-200 hover:bg-secondary/50"
+                className="inline-flex items-center gap-2.5 px-6 py-3 rounded-lg border border-border text-foreground font-medium text-sm transition-all duration-200 hover:bg-secondary"
               >
-                Browse Collection
+                Ver Coleção
               </Link>
             </motion.div>
 
+            {/* Stats */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 1 }}
-              className="flex items-center gap-8 pt-4"
+              transition={{ delay: 0.6 }}
+              className="flex items-center gap-10 pt-8 border-t border-border"
             >
               {[
-                { value: '50K+', label: 'Happy Customers' },
-                { value: '4.9', label: 'Average Rating' },
-                { value: '24/7', label: 'Support' },
+                { value: '50K+', label: 'Clientes' },
+                { value: '4.9', label: 'Avaliacao' },
+                { value: '24/7', label: 'Suporte' },
               ].map(stat => (
                 <div key={stat.label}>
-                  <div className="text-lg font-bold text-foreground">{stat.value}</div>
-                  <div className="text-xs text-muted-foreground">{stat.label}</div>
+                  <div className="text-xl font-semibold text-foreground">{stat.value}</div>
+                  <div className="text-xs text-muted-foreground mt-0.5">{stat.label}</div>
                 </div>
               ))}
             </motion.div>
@@ -86,21 +92,28 @@ const HeroSection = () => {
 
           {/* Hero Image */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="relative flex justify-center"
+            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            className="relative flex justify-center lg:justify-end"
           >
-            <div className="absolute inset-0 bg-primary/10 rounded-full blur-[100px]" />
-            <motion.img
-              animate={{ y: [0, -10, 0] }}
-              transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-              src={heroPod}
-              alt="Premium vape pod device"
-              width={1024}
-              height={1024}
-              className="relative w-full max-w-lg rounded-3xl"
-            />
+            {/* Image container */}
+            <div className="relative">
+              <motion.div
+                animate={{ y: [0, -8, 0] }}
+                transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+              >
+                <img
+                  src={heroPod}
+                  alt="Premium vape pod device"
+                  width={1024}
+                  height={1024}
+                  className="relative w-full max-w-md lg:max-w-lg rounded-2xl border border-border/50"
+                />
+                {/* Subtle overlay */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-background/20 to-transparent pointer-events-none" />
+              </motion.div>
+            </div>
           </motion.div>
         </div>
       </div>

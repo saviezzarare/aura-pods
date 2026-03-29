@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import type { Product } from '@/data/products';
+import { useAuth } from '@/context/AuthContext';
 
 export interface CartItem {
   product: Product;
@@ -23,8 +24,14 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const { user, setShowAuthModal, setAuthModalMessage } = useAuth();
 
   const addItem = useCallback((product: Product) => {
+    if (!user) {
+      setAuthModalMessage('Sign in to add items to your cart');
+      setShowAuthModal(true);
+      return;
+    }
     setItems(prev => {
       const existing = prev.find(i => i.product.id === product.id);
       if (existing) {
@@ -33,7 +40,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return [...prev, { product, quantity: 1 }];
     });
     setIsCartOpen(true);
-  }, []);
+  }, [user, setShowAuthModal, setAuthModalMessage]);
 
   const removeItem = useCallback((productId: string) => {
     setItems(prev => prev.filter(i => i.product.id !== productId));

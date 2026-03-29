@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Lock, CreditCard, ArrowLeft, Check } from 'lucide-react';
+import { Lock, CreditCard, ArrowLeft, Check, AlertCircle, Mail } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
 
 const steps = ['Shipping', 'Payment', 'Review'];
 

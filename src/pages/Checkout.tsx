@@ -9,6 +9,8 @@ const steps = ['Shipping', 'Payment', 'Review'];
 
 const Checkout = () => {
   const { items, totalPrice } = useCart();
+  const { user, isEmailVerified, setShowAuthModal, setAuthModalMessage } = useAuth();
+  const [step, setStep] = useState(0);
   const [step, setStep] = useState(0);
   const [shipping, setShipping] = useState({ firstName: '', lastName: '', email: '', address: '', city: '', state: '', zip: '' });
   const [card, setCard] = useState({ number: '', name: '', expiry: '', cvc: '' });

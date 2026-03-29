@@ -21,6 +21,36 @@ const Checkout = () => {
     return clean;
   };
 
+  if (!user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center pt-24">
+        <div className="glass-strong rounded-2xl p-8 max-w-md w-full mx-4 text-center space-y-4">
+          <AlertCircle className="w-12 h-12 text-primary mx-auto" />
+          <h2 className="text-xl font-bold text-foreground">Sign In Required</h2>
+          <p className="text-muted-foreground text-sm">You need to be signed in to checkout.</p>
+          <button onClick={() => { setAuthModalMessage('Sign in to complete your purchase'); setShowAuthModal(true); }} className="px-8 py-3 rounded-xl bg-primary text-primary-foreground font-semibold text-sm transition-all hover:shadow-lg hover:shadow-primary/25">
+            Sign In
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isEmailVerified) {
+    return (
+      <div className="min-h-screen flex items-center justify-center pt-24">
+        <div className="glass-strong rounded-2xl p-8 max-w-md w-full mx-4 text-center space-y-4">
+          <Mail className="w-12 h-12 text-primary mx-auto" />
+          <h2 className="text-xl font-bold text-foreground">Verify Your Email</h2>
+          <p className="text-muted-foreground text-sm">Please verify your email address before making a purchase. Check your inbox for the verification link.</p>
+          <Link to="/shop" className="inline-block px-8 py-3 rounded-xl bg-secondary text-secondary-foreground font-medium text-sm">
+            Continue Browsing
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
   if (items.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center pt-24">
